@@ -1,0 +1,23 @@
+services:
+  vpn-proxy:
+    image: ghcr.io/antvlass/vpn-proxy:latest
+    build: .
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - "9090:8080"
+    environment:
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - SERVER_COUNTRIES=Austria,Belgium,Croatia,Denmark,France,Germany,Italy,Netherlands,Spain,Sweden
+      - VPN_MAX_RETRIES=3
+      - HTTP_CONTROL_SERVER_AUTH_DEFAULT_ROLE={"auth":"none"}
+    volumes:
+      - gluetun-data:/gluetun
+    restart: unless-stopped
+
+volumes:
+  gluetun-data:
