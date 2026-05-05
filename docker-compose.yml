@@ -1,7 +1,7 @@
 services:
   vpn-proxy:
     image: ghcr.io/antvlass/vpn-proxy:latest
-    build: .
+    container_name: vpn-proxy
     cap_add:
       - NET_ADMIN
     devices:
